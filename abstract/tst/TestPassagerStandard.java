@@ -2,7 +2,7 @@ package tec;
 
 class TestPassagerStandard extends TestPassagerAbstrait {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws TecException {
     boolean estMisAssertion = false;
     assert estMisAssertion = true;
 
@@ -49,23 +49,32 @@ class TestPassagerStandard extends TestPassagerAbstrait {
   public void testInteractionMontee() {
     PassagerStandard p = new PassagerStandard("yyy", 5);
 
-    FauxVehicule faux2 = new FauxVehicule(FauxVehicule.VIDE);
-    Transport faux=(Transport)faux2;
-    p.monterDans(faux);
+    FauxVehicule faux = new FauxVehicule(FauxVehicule.VIDE);
+    try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
-    assert "monteeDemanderAssis" == getLastLog(faux2) : "assis";
+    assert "monteeDemanderAssis" == getLastLog(faux) : "assis";
 
-    faux2 = new FauxVehicule(FauxVehicule.DEBOUT);
-    faux=(Transport)faux2;
-    p.monterDans(faux);
+    faux = new FauxVehicule(FauxVehicule.DEBOUT);
+     try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
-    assert "monteeDemanderDebout" == getLastLog(faux2) : "debout";
+    assert "monteeDemanderDebout" == getLastLog(faux) : "debout";
 
-    faux2 = new FauxVehicule(FauxVehicule.PLEIN);
-    faux=(Transport)faux2;
-    p.monterDans(faux);
+    faux = new FauxVehicule(FauxVehicule.PLEIN);
+ try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
-    assert 0 == faux2.logs.size() : "pas de place";
+    assert 0 == faux.logs.size() : "pas de place";
   }
 
   /*

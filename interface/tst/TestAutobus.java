@@ -49,6 +49,14 @@ class TestAutobus {
     nbTest++;
     new TestAutobus().testArretSuivant();
 
+
+    
+    System.out.println('.');
+    nbTest++;
+    new TestAutobus().testPassagerDouble();
+
+
+    
     System.out.println("(" + nbTest + "):OK: " + "tec.TestAutobus");
   }
 
@@ -377,6 +385,20 @@ class TestAutobus {
           : "erreur nombre d'appels pour " + i;
       assert "nouvelArret" == getLastLog(faux[i])
           : "mauvais appel pour " + i;
+    }
+  }
+
+    public void testPassagerDouble() {//ca leve une exception
+	//montee double peut etre a deux instants differents(interface virtuel
+	//de modelisation de la realitee) du meme passager sans retour et ré-allée.
+    Autobus bus = new Autobus(10, 20);
+    FauxPassager faux = new FauxPassager();
+    bus.monteeDemanderAssis(faux);
+    try {
+      bus.monteeDemanderAssis(faux);
+      assert false : "Exception non levée";
+    } catch (IllegalStateException e) {
+      return;
     }
   }
 

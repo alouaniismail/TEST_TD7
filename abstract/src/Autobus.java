@@ -1,46 +1,74 @@
 package tec;
 
+import java.util.*;
+import java.lang.*;//si utile.
+
+/*
+import java.util.ArrayList;
+import java.util.ListIterator;//classe qui étend Iterator.
+import java.util.List;
+*/
+
+
 public class Autobus extends Vehicule implements Transport {
-    //ajout de transport (division en deux)
+	
 	private Jauge jaugeAssis;
 	private Jauge jaugeDebout;
 
-	private Passager[] passagers;
+    //private Passager[] passagers;
+    private List<Passager> passagers;
 	// private int nbPassagers;
 
 	private int arretCourant;
 
+    private ListIterator<Passager> it;
+
 	public Autobus(int nbPlaceAssise, int nbPlaceDebout) {
+	    //lever une exception non controlee
+	    //sur soit l'un des deux <0.
+	    if(nbPlaceAssise <0 || nbPlaceDebout<0){
+		throw new IllegalStateException("Scenario Incorrect, au moins une place debout ou assise dans un Transport donné");
+	    }
+
+	    
 		jaugeAssis = new Jauge(nbPlaceAssise, 0);
 		jaugeDebout = new Jauge(nbPlaceDebout, 0);
 		arretCourant = 0;
-		passagers = new Passager[nbPlaceAssise + nbPlaceDebout];
+		//	passagers = new Passager[nbPlaceAssise + nbPlaceDebout];
+
+		passagers=new ArrayList<>();
+		it=passagers.listIterator();
 	}
 
 	private void enleverPassager(Passager p) {
-		int i = 0;
-		while (passagers[i] == null || !passagers[i].equals(p)) {
-			i++;
+	    it=passagers.listIterator();//important d'initialiser (recuperation)
+	    //sinon un des tests ne marchent plus!!
+	    ListIterator<Passager> it2=it;
+	    while(it2.hasNext()){
+		Passager q=it2.next();
+		if(q.equals(p)){
+		    it2.remove();
+		    it=passagers.listIterator();
 		}
-		passagers[i] = null;
+	    }
 	}
 
 	private void ajouterPassager(Passager p) {
-		int i = 0;
-		while (passagers[i] != null) {
-			i++;
-		}
-		passagers[i] = p;
+	    passagers.add(p);
 	}
 
 	public void allerArretSuivant() {
-		arretCourant++;
-		for (Passager p : passagers) {
-			if (p != null)
-				p.nouvelArret(this, arretCourant);
-		}
+	    arretCourant++;
+	    it=passagers.listIterator();
+	    while(it.hasNext()){
+		Passager p=it.next();
+		p.nouvelArret(this,arretCourant);
+		    }
 	}
 
+    //les 3 premieres a modifier; a chaque iteration, il faut récupérer la valeur
+    //courante de it si pas d'itération, place a .add(Passager p) direct comme
+    //la 3ieme. 
 	boolean aPlaceAssise() {
 		return jaugeAssis.estVert();
 	}
@@ -70,15 +98,45 @@ public class Autobus extends Vehicule implements Transport {
 		p.changerEnDehors();
 		this.enleverPassager(p);
 	}
+    
+    //avec la levee de la premiere exception non controlee.
+    //c'est ici d'ou vient l'idee de faire les arraylist d'ou les list
+    //par polymorphisme et les parcours de sequences attribuees
+    //pour les methodes: enelverPassager() car(*).
 
-	void monteeDemanderAssis(Passager p) {
+
+    
+    //Les 2 monterDemander*() a modifier.
+    void monteeDemanderAssis(Passager p) {
+	    int i=0;
+	    while(i<passagers.size()){
+		if(p==passagers.get(i)){
+		    throw new IllegalStateException("L'usager est déjà dans le transport.");
+		}
+		i++;
+	    }
+
+	    //iteration soit parcours sur un type ArrayList possible
+	    //sans meler l'it a cela(il faut gerer sa recuperation au
+	    //parcours --debut puis le reaffecter a passagers.listIterator
+	    //si il y a eu remove(voir la methode enlever Passager POUR CELA.
+
+	    
 		jaugeAssis.incrementer();
 		p.changerEnAssis();
 		this.ajouterPassager(p);
 	}
-
+    //(*):Vous ne pouvez pas supprimer un objet par ArrayList pendant que vous itérez.(Important ! )
+    //avec la levee de la deuxieme exception non controlee.
 	void monteeDemanderDebout(Passager p) {
-		jaugeDebout.incrementer();
+int i=0;
+	    while(i<passagers.size()){
+		if(p==passagers.get(i)){
+		    throw new IllegalStateException("L'usager est déjà dans le transport.");
+		}
+		i++;
+	    }
+	    jaugeDebout.incrementer();
 		p.changerEnDebout();
 		this.ajouterPassager(p);
 	}

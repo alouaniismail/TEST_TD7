@@ -2,7 +2,7 @@ package tec;
 
 class TestPassagerStandard extends TestPassagerAbstrait {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws TecException {
     boolean estMisAssertion = false;
     assert estMisAssertion = true;
 
@@ -51,19 +51,31 @@ class TestPassagerStandard extends TestPassagerAbstrait {
 
     FauxVehicule faux2 = new FauxVehicule(FauxVehicule.VIDE);
     Transport faux=(Transport)faux2;
-    p.monterDans(faux);
+    try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    };
 
     assert "monteeDemanderAssis" == getLastLog(faux2) : "assis";
 
     faux2 = new FauxVehicule(FauxVehicule.DEBOUT);
     faux=(Transport)faux2;
-    p.monterDans(faux);
+    try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    };
 
     assert "monteeDemanderDebout" == getLastLog(faux2) : "debout";
 
     faux2 = new FauxVehicule(FauxVehicule.PLEIN);
     faux=(Transport)faux2;
-    p.monterDans(faux);
+     try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    };
 
     assert 0 == faux2.logs.size() : "pas de place";
   }

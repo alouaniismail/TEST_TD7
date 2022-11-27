@@ -20,6 +20,8 @@ import tec.FabriqueTec;
 //ne sert à rien. 
 //import tec.Usager et import tec.Transport restent. 
 
+import tec.TecException;
+
 class SimpleInterface {
 
   /*
@@ -37,7 +39,7 @@ class SimpleInterface {
     //est que qu'elle ait pas acces aux methodes declarees
     //dans les interfaces internes au paquetage...
 
-  static public void main (String[] args) {
+  static public void main (String[] args) throws TecException {
     Transport serenity = FabriqueTec.faireAutobus(1, 2);
 
     /*Passager teste=new PassagerStandard("tester",6);*/

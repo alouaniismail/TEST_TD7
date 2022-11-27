@@ -49,6 +49,10 @@ class TestAutobus {
     nbTest++;
     new TestAutobus().testArretSuivant();
 
+    System.out.println('.');
+    nbTest++;
+    new TestAutobus().testPassagerDouble();
+
     System.out.println("(" + nbTest + "):OK: " + "tec.TestAutobus");
   }
 
@@ -380,6 +384,17 @@ class TestAutobus {
     }
   }
 
+     public void testPassagerDouble() {
+    Autobus bus = new Autobus(10, 20);
+    FauxPassager faux = new FauxPassager();
+    bus.monteeDemanderAssis(faux);
+    try {
+      bus.monteeDemanderAssis(faux);
+      assert false : "Exception non levée";
+    } catch (IllegalStateException e) {
+      return;
+    }
+  }
   private String getLastLog(FauxPassager f) {
     return f.logs.get(f.logs.size() - 1);
   }

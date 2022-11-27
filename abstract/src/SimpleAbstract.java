@@ -12,6 +12,8 @@ import tec.PassagerStandard;
 
 //On les enleve ici.
 
+import tec.TecException;
+
 class SimpleAbstract {
 
   /*
@@ -29,7 +31,7 @@ class SimpleAbstract {
     //est que qu'elle ait pas acces aux methodes declarees
     //dans les interfaces internes au paquetage...
 
-  static public void main (String[] args) {
+  static public void main (String[] args) throws TecException {
     Transport serenity = new Autobus(1, 2);
 
     /*Passager teste=new PassagerStandard("tester",6);*/

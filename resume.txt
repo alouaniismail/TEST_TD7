@@ -1,0 +1,164 @@
+1->TD7:
+Resume des tds precedents(important pour les collections (projet) et les greffons des differents types d'autobus(polymorphisme DIRECT))
+1/Presentation-existant
+2/Approche objet -jauge -position
+3/Autobus-PassagerStandard
+4/Intégration-rassemblement
+5/Masquage d'informations
+6/nouveaux caractères
+7/estUN-aUN
+8/Execptions(on est ici)
+code a programmer depuis C, ajuster, puis:
+masquer les infos aux clients(code client ; 2 approches: asbtract/interface)
++nouveaux caractères avec la méthode d'héritage 'multiple' avec composition
+et maintenant, on parlera des exceptions.
+(modif. du code tjrs, on part des 2 seuls repertoirs du repository test_td6)
+>
+1.L'instanciation de Jauge:
+Jauge.java est une classe (bien sûr) qui détermine en construction MAX,min d'une chose. Dans autobus, on a un attribut prive JaugeAssis vie new Jauge(nbPlaceAssise,0) tjrs max puis min.
+Une facon de decrire l'autobus.
+si vigieMax<0, on doit pas laisser l'erreur ou mettre la chose dans un etat incoherent ; il faut lever une exception.
+On doit dans ce cas, lever une exception, cad. refuser l'instanciation via throw 
+new IllegalArgumentException("Parametre negatif en entree impossible")
+2 cas:
+soit test brut, ainsi ca va afficher toute la stack car on a lever l'exception ca se voit a l'execution soit via les blocks try catch soit:
+vigieMax<0 et Jauge jauge_exception=new Jauge(vigieMax,0) en try cad.
+un block try ou on essaierait de modifier la valeur qui était à nulle au début puis faire
+assert false : "impossible de passer par là" ; c'est logique puis un block catch qui va capturer l'erreur pour qu'elle innonde pas l'ecran via:
+catch(IllegalArgumentException e){//e instance de ce type d'exception déjà défini via le passage précédent faire un return; donc pas d'affichage de message bizarre signalant l'error à l'écran. Cela peut prêter à confusion si nous sommes pas les propios du code.
+ls ../src ls ../tst cd ~/TEST_TD7/interface && make tester tout est bon (aucun message d'erreur après tout cela).
+La variable inverse est nulle et détruite à la fin du programme.(les qsts. philosophiques + rapport à rendre pas obligeatoires ici..)
+meme les exceptions en gros jframes..(capture globale enrichissante seulement)
+Retournons :
+1.2.Capturer une exception
+1.1.Lever une exception
+L'inverse dans l'ordre 
+via 1/-Partie jauge.class.
+================================================
+2.Paquetage tec:
+La gestion des erreurs dans le packetage utilise 2 formes d'exceptions:
+exceptions au niveau des fonctions du code client:: controlees;
+exceptions au niveau des autres(plusieurs-2 sur2):: non controlees;
+(vocab.)
+Ici dans ce code, le PassagerAbstrait va avoir un lien a-UN avec les comportements et donc les montees vont heriter de celui-là(juste rappel).
+>On traite passagerstandard:
+le passagerstandard qui est une classe abstraite qui va implémenter passager et usager(méthodes cliente) va avoir arret_comportement en argument de constructeur passagerstandard ainsi va enlever le choixMontee qui a été ajoutée avant.(juste rappels)
+Les autres passagers en héritent, donc si on levent des exceptions non controlees surtout, on aurait fait tout le boulot apres.
+>Debut de la gestion::
+Indiquer la propagation d'une exception non controlee via throws Exception est facultative 
+Je parlais de PassagerAbstrait pas de standard standard est la meme chose que les autres (montees et sorties speciales du meme genericite que les autres exceptions apres...///)
+>>Gestionnaire ?dans PassagerAbstrait.java:::
+On a géré la destination dans les attributions de la classe d'origine native~++~~ maintenant, l'autre classe adjointe autobus.
+a-destination valide constructor PassagerAbstrait
+b-gestion dans ce qui reste: autobus (implements Vehicule, Transport(code client en interface))
+b>::
+>>
+Faits.
+Reste comme indiqué dans 2.1. (exceptions non controlees): la gestion de ces types d'erreurs dans les fcts. de type monterDemander*(), les erreurs precedentes etaient valides ET triviaux.
+C'est facile de developper des tests, ce td n'est pas important, on va pas se méfier de cela pour l'instant présent.
+=>La levée des exceptions via IllegalStateException de java.lang.* contrairement aux execptions de java.util.* mais pris en compte instinctivement.
+Pour cela, il faut la taille de passagers attribut privée(sous forme de tableau) de autobus, faire une petite boucle, si le p y est on lève l'execption car il y est déjà et veut monter, dorénavent les scénarios se rapprochent de la réalitée avec cette nouvelle contextualisation visant un type de programmation sous manié.
+!!Erreur!!
+	: les deux de java.lang.* en fait Exception dont héritent IllegalArgumentException(String erreur,..) et IllegalStateException de meme pour args[] de suite sont dans java.lang.Exception qui est une interface PAS une classe abstraite meme si certaines ACTIONS sont communes entre différentes exceptions..
+>Retournons a nos fonctions:
+Il faut pas utiliser les tableaux car on a pas une fonction .size() qui retourne la vraie taille et non pas la capacitée. 
+La seule réponse dispo jusqu'à là:
+Quelle est la valeur de la variable inverse dans la partie catch ?
+Dans la partie catch, inverse à pour valeur null. Cela indique que l’instanciation de Jauge à échoué et qu' inverse a conservé sa valeur d’initialisation. 
+Voila(on avait a 90% raison(premier puis deuxieme argument de réponses)).
+Note importante:
+ Vous ne pouvez pas supprimer un objet par ArrayList pendant que vous itérez.
+ =>Utilisez le polymorphisme via private List<Passager> passagers;
+ puis dans le contructeur on fera l'action:
+ passagers=new ArrayList<>();//deja les elements à l'interieur instances de passagers
+ mieux pas de taille indiquee
+ puis pour enlever on doit en argument p iterer soit utiliser un iterator vu la remarque de depart, on ajoute un attribut:
+ 	private ListIterator<Passager> it;
+ Ainsi, dans le constructeur, on fera:
+ it=passagers.listIterator();//transformation en format ``parcours sequence``.
+ tout depuis: JAVA.UTIL.* et pas javax.util.??.??;..;;{{}};
+ =>poursuivement:
+ premièrement:
+ dans monterDemanderDans il faut faire un parcours au lieu de le faire classiquement avec des !=null on va le faire sur la size:
+ =>l'attribut sous forme de tableau change il d evient en p olymorphisme:
+ private List<Passager> passagers;
+ il faut faire un remove dans un parcours (chercher le bon p en argument de type Usager)
+ =>introduire List,ArrayList,ListIterator(extends Iterator).
+ avec attribut nouveau:
+ private ListIterator<Passager> it;
+ puis dans le constructeur, déterminer les sous-(sous())types via:
+ it=passagers.listIterator(); apres:
+ passagers=new ArrayList<>(); //pas ListArray ATTENTION pour cela.
+ le parcours va se faire comme ceci:
+ int i=0;
+ while(i<passagers.size()){
+ if(p==passagers.get(i)){
+ throw new IllegalStateException("");
+ }
+ i++
+ }
+ et en remove/add/allerArretSuivant(memes chose~+/.(())):
+ ListIterator<Passager> it2=it;
+ while(it2.hasNext()){
+ //if(p==it2.next())
+ /*
+ ou bien :
+ Passager q=it2.next();
+ if(q.equals(p))
+ MIEUX
+ */
+ if(p.equals(it2.next())){
+ it2.remove();
+ //it impact aussi car il iterent la meme structure ArrayList<Passager> passagers.
+ it=passagers.listIterator();
+ }
+ }
+ //iterent la meme ArrayList(impact) mais re-precision de modification via le nouveau clair dans la forme: passagers.listIterator() comme affectation a l'attribut prive it.
+ add: facile::
+ passagers.add(p);
+ allerArretSuivant():
+ arretCourant++;
+ it=passagers.listIterator();//a chaque 'occasion'
+ while(it.hasNext()){
+ Passager p=it.next();
+ p.nouvelArret(this,arretCourant);
+ }
+Dans add, pas la peine de specifier un it car on prepare pas un iterateur a court de ressources.
+=>make tester tout marche et meme:
+1/make global2 executer2
+2/make test_all make  test_all_exec
+voilà.
+>General(control): heritage depuis Exception.
+(et on va voir dans pAssagerAbstrait on doit mettre throws TecException apres la class declaration--())
+>Thowable cause
+>String name
+>prototype: TecException() en public.
+voilà.
+=>et voilà, la question: Dans l’interface Usager, modifier le prototype de la méthode monterDans() pour spécifier la propagation de l’exception TecException. 
+On va construire une classe d'exceptions et on va la speicifer via throws TecException.
+(2 constructeurs faits///).
+VIA UNE METHODE le throws Exception
+(car try catch se trouverait dedans seulement pas devant la classe !!!!!).
+ca s'est reglee.
+>On ajoutera les tests desormais des levees et resolution astusieuse des exceptions..
+Tests normaux prenant en compte les exceptions dans TestPassager3
+cad. ajout de throws TecException dans le main(must unreported? error terminal cmds)
+via un try catch pour ne pas lever une exception betement via monter Dans dans interactionMontee tjrs try catch(Exception e)(polymorphisme+) : System.out.println(Throwable);
+;
+Via un interface important de specifier le throws(inclusion d'infos statiques non changeables) avant l'implémentation dans une classe direct ou indirectement via une utilisation dans une classe regroupante contenant la seule méthode main statique.
+On utilise tjrs throw pour la mise en chaine via des strings.
+a savoir.
+MonterDans dans testpassager('3') il faut les try catch pour prendre en compte le throws TecException du nouveau. (mais sans cela, c'est suffisant??)
+Juste try catch(Exception e):System.out.println(e) est suffisant pour prendre en compte le throws dans le main et l'autre action(s).
+VOILA.//
+================================
+==============================================================
+1.difference entre parcours et suppression(iterateur, declaration dans parcours, iterateur forcement..///)
+2.[--1.--]ce qu'ona ditexactement avant.
+(Les développements de Autobus.java).
+VOILA.
+==============================================================================================================
+On fait une copie de abstract qu'on a enrichie sur thor sur le repository ~/TEST_TD7 apres.
+Du coup on a fait en terme de dernier td avant le projet (1 feuille sur ~(VRAI)2 seances) sauf le fichier dans les 2 folders/tst qui concerne le lancement des tests(la derniere partie ).
+>Procedure:
+

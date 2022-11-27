@@ -11,7 +11,7 @@ import tec.Usager;
 //import tec.PassagerIndecis;
 import tec.FabriqueTec;
 //Les 2-3 dernieres juste pour l'instanciation uniquement. 
-
+import tec.TecException;
 
 class SimpleIndecis {
 
@@ -30,7 +30,7 @@ class SimpleIndecis {
     //est que qu'elle ait pas acces aux methodes declarees
     //dans les interfaces internes au paquetage...
 
-  static public void main (String[] args) {
+  static public void main (String[] args) throws TecException {
     Transport serenity =  FabriqueTec.faireAutobus(1, 2);
 
     /*Passager teste=new PassagerIndecis("teste",6);

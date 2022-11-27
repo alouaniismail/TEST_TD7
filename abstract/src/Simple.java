@@ -5,13 +5,16 @@ import tec.PassagerStandard;
 import tec.PassagerIndecis;
 import tec.PassagerStresse;
 
-class SimpleAll {
+import tec.TecException;
+//make 3_comportements__ensemble(avec levee et prise en consideration
+//des exceptions NON CONTROLEES).
+class Simple {
   static private void deboguerEtat(Transport t, Usager p) {
     System.out.println(p);
     System.out.println(t);
   }
 
-  static public void main(String[] args) {
+  static public void main(String[] args) throws TecException {
     Transport serenity = new Autobus(2, 2);
 
     Usager nathan = new PassagerStandard("Nathan", 4);

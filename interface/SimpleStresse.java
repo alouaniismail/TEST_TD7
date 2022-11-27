@@ -10,6 +10,7 @@ import tec.Usager;
 //import tec.PassagerStandard;
 //import tec.PassagerStresse;
 import tec.FabriqueTec;
+import tec.TecException;
 
 class SimpleStresse {
 
@@ -28,7 +29,7 @@ class SimpleStresse {
     //est que qu'elle ait pas acces aux methodes declarees
     //dans les interfaces internes au paquetage...
 
-  static public void main (String[] args) {
+  static public void main (String[] args) throws TecException {
     Transport serenity = FabriqueTec.faireAutobus(1, 2);
 
     /*Passager teste=new PassagerStresse("teste",6);

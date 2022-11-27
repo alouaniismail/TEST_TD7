@@ -1,10 +1,10 @@
 package tec;
 
-//import tec.TestPassagerAbstrait;
+import tec.TestPassagerAbstrait;
 
 class TestPassagerStresse extends TestPassagerAbstrait {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws TecException {
     boolean estMisAssertion = false;
     assert estMisAssertion = true;
 
@@ -52,27 +52,37 @@ class TestPassagerStresse extends TestPassagerAbstrait {
     PassagerStresse p = new PassagerStresse("yyy", 5);
 
     FauxVehicule faux = new FauxVehicule(FauxVehicule.VIDE);
-    Transport faux2=(Transport)faux;
-    p.monterDans(faux2);
+     try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
     assert "monteeDemanderAssis" == getLastLog(faux) : "assis";
 
     faux = new FauxVehicule(FauxVehicule.DEBOUT);
-    faux2=(Transport)faux;
-    p.monterDans(faux2);
+     try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
-    assert "monteeDemanderDebout" == getLastLog(faux) : "debout";
+    assert 0 == faux.logs.size() : "pas de place assise";
 
     faux = new FauxVehicule(FauxVehicule.PLEIN);
-    faux2=(Transport)faux;
-    p.monterDans(faux2);
+     try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
     assert 0 == faux.logs.size() : "pas de place";
   }
 
   /*
    * Interaction a un arret
-   * Deux cas:
+   * Trois cas
+   * - numero d'arret > 5 arrets avant a la destination
    * - numero d'arret < 3 a la destination
    * - numero d'arret = à la destination
    */
@@ -82,8 +92,12 @@ class TestPassagerStresse extends TestPassagerAbstrait {
 
     FauxVehicule faux = new FauxVehicule(FauxVehicule.VIDE);
 
+    p.changerEnDebout();
+    p.nouvelArret(faux, 1);
+    assert "arretDemanderAssis" == getLastLog(faux) : "+5 arrets (assis)";
+
     p.changerEnAssis();
-    p.nouvelArret(faux, 4);
+    p.nouvelArret(faux, 5);
     assert "arretDemanderDebout" == getLastLog(faux) : "-3 arrets (debout)";
 
     p.changerEnDebout();
@@ -91,6 +105,3 @@ class TestPassagerStresse extends TestPassagerAbstrait {
     assert "arretDemanderSortie" == getLastLog(faux) : "destination";
   }
 }
-
-
-

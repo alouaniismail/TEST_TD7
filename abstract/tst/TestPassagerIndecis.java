@@ -6,7 +6,7 @@ package tec;
 
 class TestPassagerIndecis extends TestPassagerAbstrait {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws TecException {
     boolean estMisAssertion = false;
     assert estMisAssertion = true;
 
@@ -53,16 +53,22 @@ class TestPassagerIndecis extends TestPassagerAbstrait {
     PassagerIndecis p = new PassagerIndecis("yyy", 5);
 
     FauxVehicule faux = new FauxVehicule(FauxVehicule.VIDE);
-    Transport faux2=(Transport)faux;
-    p.monterDans(faux2);
+    try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
     // le caractere faussaire de fauxvehicule rend impossible
     // la verification du 2ieme caractere de passagerIndecis.class.
 
     assert "monteeDemanderDebout" == getLastLog(faux) : "debout";
 
     faux = new FauxVehicule(FauxVehicule.ASSIS);
-    faux2=(Transport)faux;
-    p.monterDans(faux2);
+    try{
+	p.monterDans(faux);}
+    catch(Exception e){
+	System.out.println(e);
+    }
 
     assert 0 == faux.logs.size() : "pas de place";
   }

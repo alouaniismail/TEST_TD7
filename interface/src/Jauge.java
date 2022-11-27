@@ -34,6 +34,9 @@ class Jauge {
    * @param depart position de départ de la Jauge.
    */
   public Jauge(int max, int depart) {
+      if(max<0){
+	  throw new IllegalArgumentException("Le manimum ne peut pas être négatif");
+      }
     valeur = depart;
     MAX = max;
   }

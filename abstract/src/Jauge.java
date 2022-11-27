@@ -1,4 +1,5 @@
 package tec;
+import java.lang.*;
 
 /**
  * Réalisation d'une jauge sur un intervalle d'entiers.
@@ -34,6 +35,12 @@ class Jauge {
    * @param depart position de départ de la Jauge.
    */
   public Jauge(int max, int depart) {
+
+      if(max<0){//On leve une exception qui sera capturee apres
+	  //pour eviter le print de l'erreur
+	  //sous forme de toute la stack d'appels.
+	  throw new IllegalArgumentException("Le maximum ne peut pas être négatif");
+      }
     valeur = depart;
     MAX = max;
   }

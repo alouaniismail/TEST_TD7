@@ -5,15 +5,16 @@ import tec.Transport;
 //import tec.PassagerIndecis;
 //import tec.PassagerStresse;
 import tec.FabriqueTec;
+import tec.TecException;
 
 
-class SimpleAll {
+class SimpleAll{//obligee pour la prendre en compte dans tous les méthodes à laquelle elle va deriver nous.
   static private void deboguerEtat(Transport t, Usager p) {
     System.out.println(p);
     System.out.println(t);
   }
 
-  static public void main(String[] args) {
+  static public void main(String[] args) throws TecException   {
       Transport serenity = FabriqueTec.faireAutobus(2,2);
 
       Usager nathan = FabriqueTec.fairePassager("Nathan", 4,0);

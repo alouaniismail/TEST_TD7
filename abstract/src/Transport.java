@@ -1,5 +1,5 @@
 package tec;
-public interface Transport
-{
+
+public interface Transport {
     public void allerArretSuivant();
 }

@@ -5,18 +5,25 @@ package tec;
 
 abstract public class PassagerAbstrait extends Passager implements Usager {
 
-    protected String nom;
-    protected int destination;
-    protected Position maPosition;
+    private String nom;
+    private int destination;
+    private Position maPosition;
 
-    public PassagerAbstrait(String nom, int destination) {
+    final private ArretComportement comportement;
+
+    public PassagerAbstrait(String nom, int destination, ArretComportement comportement) {
         this.nom = nom;
         this.destination = destination;
+        this.comportement = comportement;
         this.maPosition = Position.dehors();
     }
 
     String nom() {
         return nom;
+    }
+
+    int destination() {
+        return destination;
     }
 
     boolean estDehors() {
@@ -43,15 +50,29 @@ abstract public class PassagerAbstrait extends Passager implements Usager {
         maPosition = Position.debout();
     }
 
-    public void monterDans(Transport t) {
-	Vehicule v=(Vehicule)t;
-        choixPlaceMontee(v);
+    public void monterDans(Transport t) throws TecException {
+        Vehicule v = (Vehicule) t;
+	if(!(v instanceof Vehicule))
+	    throw new TecException("Erreur de conversion au bon typage.");
+	try{
+	    choixPlaceMontee(v);}
+	catch(IllegalStateException e){
+	    throw new TecException(e);
+	}
     }
 
-    void nouvelArret(Vehicule v, int numeroArret) {
-        if (numeroArret == destination)
+    //IllegalStateException e
+    //puis appel au 2ieme constructeur
+    //soit throw(pas de RETURN!) via->:
+    //>
+    //    throw new TecException(e)
+    //avec e en polymorphisme de type IllegalStateArgument ici.///
+
+    void nouvelArret(Vehicule v, int numeroArret)  {
+        if (numeroArret == destination) {
             v.arretDemanderSortie(this);
-	choixPlaceArret(v,numeroArret);
+        }
+        comportement.choixPlaceArret(this, v, destination-numeroArret);
     }
 
     public String toString() {
@@ -59,5 +80,4 @@ abstract public class PassagerAbstrait extends Passager implements Usager {
     }
 
     abstract void choixPlaceMontee(Vehicule v);
-    abstract void choixPlaceArret(Vehicule v, int arret);
 }
