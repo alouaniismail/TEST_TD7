@@ -55,6 +55,7 @@ abstract public class PassagerAbstrait implements Passager,Usager {
 	if(!(v instanceof Vehicule)) //instanceof par instanceOf
 	    throw new TecException("Le transport n'a pas être convertie au bon type pour son traitement ultèrieur");
 
+	
 	try{
         choixPlaceMontee(v);
 	}catch(IllegalStateException e){//probleme deja resolu indirectement.
@@ -62,6 +63,11 @@ abstract public class PassagerAbstrait implements Passager,Usager {
 	}//normal de faire ceci dans un scenario de modelisation informatique
 	//en monde reel pas virtuel.
     }
+	
+
+    //	choixPlaceMontee(v);
+    
+	
     //vrai message d'erreur.
     //voir la doc dans: java.lang.Throwable qui est une CLASSE !
 
