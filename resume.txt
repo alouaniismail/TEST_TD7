@@ -182,6 +182,11 @@ VOILA.(pour les rappels + les remarques)
 ------------------------------------------------
 Automatisation des tests / enumerations && genericite vis-a-vis des types au sein d'une meme classe (###polymorphisme):
 On traitera le premier, les 2 soit dans le depot thor surtout le premier, le deuxieme en extension ?? du cours  (culture generale du mecanisme poo generique en JAVA!)
->
+>A voir dans a_revoir sous-folder de interface/tst.
+Rq: c'est à revoir vraiement(chapitre hors de genericite)
+Pas inclus dans le Makefile
+et dans abstract inclusion AUSSI.
+FIN_TDS.
+PROCHAINE ET DERNEIRE ETAPE: PROJET_POO 's(()) repository.
 
 
