@@ -161,4 +161,27 @@ VOILA.
 On fait une copie de abstract qu'on a enrichie sur thor sur le repository ~/TEST_TD7 apres.
 Du coup on a fait en terme de dernier td avant le projet (1 feuille sur ~(VRAI)2 seances) sauf le fichier dans les 2 folders/tst qui concerne le lancement des tests(la derniere partie ).
 >Procedure:
+Rappels:
+L'Usager quand on ajoute le throws TecException dans son prototype 
+Son implémentation(utilisation vis-a-vis du code client) doit y prendre en compte:
+1/dans son prototype
+2/pas forcément de try catch mais si on veut (vis-a-vis de l'action unique '''' choixPlaceMontee(v) on doit faire:
+try{..;}catch(IllegalStateException e)//logique comme indique sur l'enonce
+{
+throw new TecException(e);
+}
+Remarques:
+L'ajout dans Usager nous force de modifier le prototype comme ce qui precede (TecException est tres reduite par rapport a java.lang.* qui gere entre autres les cas de levees d'exceptions(IOException,SQLException(jdbc)..)) et nous conduit à:
+1/modifier le prototype dans le fichier phare soit PassagerAbstrait.java
+2/Les tests faussaires:
+prise en compte dans le main via throws TecException && inclusion de ce paquet particularisé dans tous les genre de simple(testsd'integration) && :
+dans les tests faussaires(faussaires quoi!!), il faut dans testInteractionMontee, ajouter:
+try catch cette fois avec Exception e seulement suffit et faire seulement(car cela suffit):
+System.out.println(e);
+VOILA.(pour les rappels + les remarques)
+------------------------------------------------
+Automatisation des tests / enumerations && genericite vis-a-vis des types au sein d'une meme classe (###polymorphisme):
+On traitera le premier, les 2 soit dans le depot thor surtout le premier, le deuxieme en extension ?? du cours  (culture generale du mecanisme poo generique en JAVA!)
+>
+
 
